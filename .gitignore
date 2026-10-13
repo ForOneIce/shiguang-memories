@@ -1,0 +1,55 @@
+# Dependencies and generated output
+node_modules/
+dist/
+coverage/
+test-results/
+playwright-report/
+.vercel/
+.cache/
+.tmp/
+tmp/
+*.log
+*.tsbuildinfo
+.eslintcache
+
+# Local secrets; a placeholder-only example may be shared
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+.aws/
+
+# Personal conversations and portable backups are never source files
+imports/
+backups/
+private/
+conversations*.json
+shiguang-backup*.json
+shiguang-conversations*.json
+*.zip
+*.7z
+*.rar
+*.tar
+*.tar.gz
+*.tgz
+
+# Local design research, reference media, screenshots and agent workspace
+/docs/
+/.codex/
+/.agents/
+/work/
+/output/
+/screenshots/
+/artifacts/
+
+# Editor and operating system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
