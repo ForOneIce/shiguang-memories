@@ -49,6 +49,29 @@ git ls-files
 
 确认没有私人聊天、下载备份、个人截图、密钥或包含私人数据的调试日志。不要将检查时看到的私人内容粘贴到公开 issue、PR 或构建日志中。
 
+## GitHub Pages
+
+本项目可以部署为 GitHub Pages 静态网站。仓库根目录中的 `.github/workflows/deploy-pages.yml` 会自动安装依赖、运行测试、构建并发布网站。
+
+首次部署按以下步骤操作：
+
+1. 打开 GitHub 仓库的 **Settings → Pages**，在 **Build and deployment → Source** 中选择 **GitHub Actions**。完成这一步后，不需要再选择其他工作流模板。
+2. 将项目源代码和 `.github/workflows/deploy-pages.yml` 提交并推送到仓库的 `main` 分支。工作流文件必须位于 GitHub 仓库根目录下的 `.github/workflows/`，不能放在额外的项目子目录中。
+3. 打开仓库顶部的 **Actions**，点击 **Deploy to GitHub Pages**。打开最新一次运行，等待 `build` 和 `deploy` 都显示绿色勾号。首次运行通常需要几分钟。
+4. 返回 **Settings → Pages**，点击页面显示的网站链接。当前仓库的默认地址是 [https://foroneice.github.io/shiguang-memories/](https://foroneice.github.io/shiguang-memories/)。以 GitHub 实际显示的地址为准。
+
+如果工作流已经提交，但没有自动运行，可以在 **Actions → Deploy to GitHub Pages → Run workflow** 中选择 `main`，再点击 **Run workflow**。若出现红色失败标记，打开失败的任务和步骤查看原因；测试或构建未通过时，不会继续发布该版本。
+
+后续每次推送到 `main` 都会自动更新网站，无需手工上传 `dist/`，也无需创建 `gh-pages` 分支。若改用其他分支部署，需要同时修改工作流的 `push.branches`，并在 **Settings → Environments → github-pages** 中核对允许部署的分支。
+
+工作流使用 Node.js 22，依次执行 `npm ci`、`npm test` 和 Vite 构建。构建路径采用 `actions/configure-pages` 提供的 `base_path`，适配 `/shiguang-memories/` 这样的仓库子路径。最终仅将 `dist/` 交给 `actions/deploy-pages` 发布，源码、开发文档和 README 配图不会作为站点文件上传。
+
+GitHub Pages 不使用 `vercel.json` 或 `.vercelignore`；Vercel 中配置的响应头也不会在 Pages 生效。发布范围由工作流上传的 `dist/` 目录限定，请不要改为上传仓库根目录。
+
+从本地、Vercel 或其他域名迁移到 Pages 后，浏览器的来源地址（origin）发生变化，原站点保存的记录不会自动出现在新站点。请先在旧站点导出完整备份，再到新站点导入，以迁移对话、私人便笺和外观设置。上线后可使用应用自带的虚构示例检查阅读、搜索和主题切换。
+
+选择托管用途时，请参阅 [GitHub Pages 使用限制](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits)。
+
 ## Vercel
 
 导入 GitHub 仓库，选择 Vite：
